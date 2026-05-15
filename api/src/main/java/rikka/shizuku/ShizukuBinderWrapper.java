@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.FileDescriptor;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -90,5 +91,22 @@ public class ShizukuBinderWrapper implements IBinder {
     @Override
     public boolean unlinkToDeath(@NonNull DeathRecipient recipient, int flags) {
         return original.unlinkToDeath(recipient, flags);
+    }
+
+    @Nullable
+    public IBinder getExtension() throws RemoteException {
+        try {
+            Method getExtension = IBinder.class.getMethod("getExtension");
+            IBinder extension = (IBinder) getExtension.invoke(original);
+            if (extension != null) {
+                return new ShizukuBinderWrapper(extension);
+            }
+        } catch (NoSuchMethodException ignored) {
+        } catch (Throwable e) {
+            if (e.getCause() instanceof RemoteException) {
+                throw (RemoteException) e.getCause();
+            }
+        }
+        return null;
     }
 }

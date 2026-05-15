@@ -51,6 +51,11 @@ public class Binder implements IBinder {
         throw new RuntimeException("STUB");
     }
 
+    @Override
+    public IBinder getExtension() {
+        throw new RuntimeException("STUB");
+    }
+
     protected boolean onTransact(int code, @NonNull Parcel data, @Nullable Parcel reply,
                                  int flags) throws RemoteException {
         throw new RuntimeException("STUB");

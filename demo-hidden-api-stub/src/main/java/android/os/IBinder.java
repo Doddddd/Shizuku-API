@@ -27,6 +27,11 @@ public interface IBinder {
 
     boolean unlinkToDeath(@NonNull DeathRecipient recipient, int flags);
 
+    @Nullable
+    default IBinder getExtension() throws RemoteException {
+        throw new IllegalStateException("Method is not implemented");
+    }
+
     interface DeathRecipient {
         void binderDied();
     }
